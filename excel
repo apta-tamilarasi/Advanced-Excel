@@ -26,7 +26,7 @@ Definition: Data Validation restricts user input based on predefined rules to en
 
 	1. Select the cells where you want to apply Data Validation.  
 	2. Go to Data > Data Validation.  
-	3. Choose the validation type (e.g., List for dropdown, Whole Number for number restriction) and set the 	criteria.
+	3. Choose the validation type (e.g., List for dropdown, Whole Number for number restriction) and set the criteria.
 ------------------------------------------------------------------------------------
 4. Shortcut for Date & Time Entry
 Definition: Excel provides shortcuts to quickly enter the current date or time.

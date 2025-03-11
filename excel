@@ -185,6 +185,97 @@ Important Notes:
 The `MATCH` function is useful for searching data, especially when combined with `INDEX` to look up values dynamically.
 
 ===========================================================================================================
+MATCH Function in Excel
+
+The `MATCH` function in Excel is used to find the position of a value in a row or column. It returns the relative position of the value in a given range.
+
+Syntax:
+```excel
+MATCH(lookup_value, lookup_array, [match_type])
+```
+- `lookup_value` → The value you want to find.
+- `lookup_array` → The range where you want to search.
+- `match_type` → (Optional) Specifies the type of match:
+  - `1` (default) → Finds the largest value less than or equal to `lookup_value`. (Requires sorted data in ascending order.)
+  - `0` → Finds the exact match.
+  - `-1` → Finds the smallest value greater than or equal to `lookup_value`. (Requires sorted data in descending order.)
+
+Example 1: Finding the Position of a Number
+Data in Column A (A1:A5):
+| A    |
+|------|
+| 10   |
+| 20   |
+| 30   |
+| 40   |
+| 50   |
+
+If you use the formula:
+```excel
+=MATCH(30, A1:A5, 0)
+```
+Result: `3` (because 30 is in the 3rd position)
+
+Example 2: Finding the Position of a Text Value
+Data in Column B (B1:B5):
+| B       |
+|---------|
+| Apple   |
+| Banana  |
+| Cherry  |
+| Mango   |
+| Orange  |
+
+If you use the formula:
+```excel
+=MATCH("Cherry", B1:B5, 0)
+```
+Result: `3` (because "Cherry" is in the 3rd position)
+
+Example 3: Using Approximate Match
+If the data in Column C is sorted in ascending order:
+| C    |
+|------|
+| 10   |
+| 25   |
+| 35   |
+| 50   |
+| 60   |
+
+Formula:
+```excel
+=MATCH(30, C1:C5, 1)
+```
+Result: `2` (because 25 is the largest value less than 30)
+
+Example 4: Using OFFSET, SUM, and MATCH Together
+Data Table:
+| A       | B   |
+|---------|----|
+| Apples  | 10 |
+| Bananas | 20 |
+| Cherries| 30 |
+| Mangoes | 40 |
+| Oranges | 50 |
+
+Formula to sum values from "Bananas" to "Mangoes":
+```excel
+=SUM(OFFSET(B1, MATCH("Bananas", A1:A5, 0)-1, 0, MATCH("Mangoes", A1:A5, 0)-MATCH("Bananas", A1:A5, 0)+1, 1))
+```
+Explanation:
+- `MATCH("Bananas", A1:A5, 0)` finds the position of "Bananas" (2).
+- `MATCH("Mangoes", A1:A5, 0)` finds the position of "Mangoes" (4).
+- `OFFSET(B1, start_position, 0, height, 1)` creates a range from "Bananas" to "Mangoes" in column B.
+- `SUM(...)` calculates the total of this range: `20 + 30 + 40 = 90`.
+
+Important Notes:
+1. If `MATCH` does not find a match with `match_type` = `0`, it returns `#N/A`.
+2. `MATCH` is not case-sensitive, meaning "Apple" and "apple" are treated the same.
+3. If `match_type` = `1` or `-1`, ensure the `lookup_array` is sorted correctly.
+
+The `MATCH` function is useful for searching data, especially when combined with `INDEX` or `OFFSET` to look up values dynamically.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 Task in Entering Datas:
 ===========================
 
@@ -293,3 +384,93 @@ Advanced Level:
     - Formula: =TEXTJOIN(", ", TRUE, A2:D2)
 
 ================================================================================================================================================================
+
+OFFSET Function
+1. How do you return a value 2 rows below and 1 column to the right of cell A1?
+2. How can you get a range of 3 rows and 2 columns starting from B2?
+3. How do you dynamically get the last row in column A if data length changes?
+4. How do you sum the last 5 values in column B dynamically?
+5. How can you create a moving average of the last 3 values in column C?
+
+SUM Function
+6. How do you sum the range A1:A10?
+7. How do you sum values in B1:B10 only if they are greater than 50?
+8. How do you sum values in column C if column A contains "Apple"?
+
+ MATCH Function
+9. How do you find the position of value 50 in range D1:D10?
+10. How do you find the position of the largest number in column E?
+
+======================================================================================================================================
+
+OFFSET Function
+1. How do you return a value 2 rows below and 1 column to the right of cell A1?
+   =OFFSET(A1,2,1)
+
+2. How can you get a range of 3 rows and 2 columns starting from B2?
+   =OFFSET(B2,0,0,3,2)
+
+3. How do you dynamically get the last row in column A if data length changes?
+   =OFFSET(A1,COUNTA(A:A)-1,0)
+
+4. How do you sum the last 5 values in column B dynamically?
+   =SUM(OFFSET(B1,COUNTA(B:B)-5,0,5,1))
+
+5. How can you create a moving average of the last 3 values in column C?
+   =AVERAGE(OFFSET(C1,COUNTA(C:C)-3,0,3,1))
+
+SUM Function
+6. How do you sum the range A1:A10?
+   =SUM(A1:A10)
+
+7. How do you sum values in B1:B10 only if they are greater than 50?
+   =SUMIF(B1:B10,">50")
+
+8. How do you sum values in column C if column A contains "Apple"?
+   =SUMIF(A:A,"Apple",C:C)
+
+MATCH Function
+9. How do you find the position of value 50 in range D1:D10?
+   =MATCH(50,D1:D10,0)
+
+10. How do you find the position of the largest number in column E?
+    =MATCH(MAX(E:E),E:E,0)
+
+======================================================================================================================================
+
+Referencing in Formulas in Excel
+
+In Excel, referencing in formulas allows users to use values from different cells or ranges. There are three types of references:
+
+1. Relative References
+Relative references change when the formula is copied to another cell.
+
+Example:
+If you have =A1+B1 in cell C1 and copy it to C2, it automatically changes to =A2+B2.
+
+2. Absolute References
+Absolute references remain fixed when copied to another cell. They use the $ symbol.
+
+Example:
+If you have =$A$1+B1 in C1 and copy it to C2, it remains =$A$1+B2.
+
+3. Mixed References
+Mixed references lock either the row or the column.
+
+Example:
+- $A1: The column is fixed, but the row changes.
+- A$1: The row is fixed, but the column changes.
+
+Example Use Case:
+| A  | B  | C  |
+|----|----|----|
+| 10 | 20 | =A1+B1 |
+| 15 | 25 | =A2+B2 |
+
+If we drag the formula in column C down, it updates automatically based on the reference type.
+
+Using proper referencing in formulas helps in efficient data manipulation and calculation in Excel.
+
+======================================================================================================================================
+
+

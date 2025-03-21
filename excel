@@ -857,3 +857,153 @@ Advanced Level Validation in Excel - Tasks and Answers
    Answer: Data Validation > Custom > Formula: =J1>A1
 
 
+====================================================================================================================================
+
+1. Important Formulas in Excel:
+
+- SUM: Adds a range of numbers.  
+  Example: `=SUM(A1:A5)`  
+  Input:
+  |  A  |
+  |---- |
+  |  10 |
+  |  20 |
+  |  30 |
+  |  40 |
+  |  50 |
+  Output: `150`
+  
+- AVERAGE: Calculates the average of a range.  
+  Example: `=AVERAGE(A1:A5)`  
+  Input:
+  |  A  |
+  |----|
+  |  10 |
+  |  20 |
+  |  30 |
+  |  40 |
+  |  50 |
+  Output: `30`
+  
+- IF: Performs a logical test and returns values based on the condition.  
+  Example: `=IF(A1>50, "Pass", "Fail")`  
+  Input:
+  |  A  |
+  |----|
+  |  40 |
+  Output: `Fail`
+  
+  Input:
+  |  A  |
+  |----|
+  |  60 |
+  Output: `Pass`
+  
+- VLOOKUP: Searches for a value in a column and returns a corresponding value from another column.  
+  Example: `=VLOOKUP(101, A2:C5, 2, FALSE)` --------VLOOKUP(search_key, range, index, [is_sorted]) 
+  Input:
+  |  A  |  B  |  C  |
+  |---- |---- |---- |
+  | 100 | John  | HR  |
+  | 101 | Alice | IT  |
+  | 102 | Mark  | Sales |
+
+  Output: `Alice`
+
+  
+====================================================================================================================================
+
+2. Working with Dynamic Tables:
+
+- Use Excel Tables (Insert > Table) to create structured references.
+- Structured reference example: `=SUM(Table1[Sales])` (Adds all values in the "Sales" column of Table1)
+- Tables automatically expand when new data is added.
+
+====================================================================================================================================
+
+3. Data Sorting in Excel:
+
+- Sort A to Z / Z to A:
+  Example: Select column -> Click on "Sort & Filter" -> Choose "Sort A to Z" (Sorts in ascending order).
+
+- Sort by Multiple Columns:
+  Example: Click "Sort", then "Add Level" to sort by multiple criteria (e.g., first by "Category", then by "Sales").
+
+- Custom Sorting:
+  Example: Sorting months in order instead of alphabetical order (Jan, Feb, Mar, etc.).
+
+====================================================================================================================================
+
+4. Data Filtering in Excel:
+
+- Basic Filter:
+  Example: Select column -> Click "Filter" -> Choose criteria (e.g., show only values greater than 50).
+
+- Advanced Filter:
+  Example: Use "Text Filters" (contains, begins with) or "Number Filters" (greater than, less than).
+
+- Using Formulas for Filtering:
+  Example: `=FILTER(A2:B20, B2:B20>50, "No Data")` (Filters data where column B values are greater than 50).
+
+====================================================================================================================================
+
+5. Chart Creation in Excel:
+
+- Basic Chart:
+  Example: Select Data -> Insert -> Choose Chart Type (Bar, Line, Pie, etc.) (Creates a visual representation of data).
+
+- Dynamic Chart:
+  - Use a table to allow automatic chart updates.
+  - Create a named range using OFFSET and define it in chart data.
+  Example: `=OFFSET(Sheet1!$A$1,0,0,COUNTA(Sheet1!$A:$A),1)` (Defines a dynamic range for the chart).
+
+- Pivot Chart:
+  Example: Insert Pivot Table -> Add to Pivot Chart for interactive data visualization (Creates a chart that updates based on pivot data).
+
+====================================================================================================================================
+10 Questions and Answers on Excel Formulas, Tables, Sorting, Filtering, and Charts
+
+Excel Formulas:
+
+1. What is the purpose of the SUM_FORMULA, and how does it work?  
+   Answer: The SUM_FORMULA is used to add a range of numbers. Example: =SUM(A1:A5) adds the values in cells A1 to A5.
+
+2. How does the IF_FORMULA help in decision-making in Excel? Give an example.  
+   Answer: The IF_FORMULA performs a logical test and returns different values based on conditions. Example: =IF(A1>50, "Pass", "Fail") returns "Pass" if A1 is greater than 50, otherwise "Fail".
+
+3. What is the difference between VLOOKUP_FORMULA and HLOOKUP_FORMULA?  
+   Answer: VLOOKUP_FORMULA searches for a value in a vertical column, while HLOOKUP_FORMULA searches in a horizontal row. Example: =VLOOKUP(101, A2:C5, 2, FALSE) finds 101 in column A and returns the value from column B.
+
+4. How does the AVERAGE_FORMULA calculate the average of a range? Provide an example.  
+   Answer: The AVERAGE_FORMULA finds the mean of a range of numbers. Example: =AVERAGE(A1:A5) calculates the average of values in cells A1 to A5.
+
+Dynamic Tables & Sorting:
+
+5. What are the benefits of using a dynamic table in Excel instead of a normal range?  
+   Answer: Dynamic tables automatically adjust when new data is added, making formulas and charts update automatically. Structured references can be used instead of cell ranges.
+
+6. How can you sort a table by multiple columns in Excel?  
+   Answer: Use the "Sort" option, then click "Add Level" to sort by multiple criteria, e.g., sorting first by "Category" and then by "Sales".
+
+Filtering Data:
+
+7. What is the difference between basic filtering and advanced filtering in Excel?  
+   Answer: Basic filtering allows quick selection of values from a dropdown, whereas advanced filtering lets you apply complex criteria using formulas or multiple columns.
+
+8. How do you use a formula to filter data based on conditions?  
+   Answer: Use the FILTER function. Example: =FILTER(A2:B20, B2:B20>50, "No Data") filters values in column B greater than 50.
+
+Charts in Excel:
+
+9. What are the steps to create a pivot chart in Excel, and why is it useful?  
+   Answer: Steps:
+   - Select data
+   - Insert -> Pivot Table -> Choose Data Range
+   - Insert -> Pivot Chart
+   Pivot charts update automatically when data changes.
+
+10. How can you make a chart dynamic so that it updates automatically when new data is added?  
+   Answer: Use named ranges with OFFSET and COUNTA functions. Example: =OFFSET(Sheet1!$A$1,0,0,COUNTA(Sheet1!$A:$A),1) defines a dynamic range for a chart
+
+
+

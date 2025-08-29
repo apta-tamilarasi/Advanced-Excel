@@ -33,9 +33,54 @@ Steps:
 2. Press Ctrl + E, or go to Data > Flash Fill.
 3. Excel will automatically complete the pattern.
 
-------------------------------------------------------------------------------------
+ex
+====
+A             B              C
 
-3. Data Validation
+Tamil         Kalai          Tamil Kalai
+Vani          Arasi          select and click ctrl+E/Flash Fill
+
+------------------------------------------------------------------------------------
+3)Number and Text separation:
+==============================
+Steps:
+------
+1. Select the data range A1:A6.
+2. Press Ctrl + G (opens "Go To").
+3. Click "Special...".
+4. In the Go To Special window:
+   - Select "Constants".
+   - Uncheck all EXCEPT "Text".
+5. Click OK — only the text cells (Hello, World, Test) will be selected.
+6. Press Ctrl + C to copy.
+7. Click on a new column (e.g., B1) and press Ctrl + V to paste.
+
+
+example:
+========
+Example Data (Column A):
+------------------------
+A1: 123
+A2: Hello
+A3: 456
+A4: World
+A5: 789
+A6: Test
+
+Result in Column B:
+-------------------
+B1: Hello
+B2: World
+B3: Test
+
+Result in Column C:
+-------------------
+C1: 123
+C2: 456
+C3: 789
+
+------------------------------------------------------------------------------------
+4. Data Validation
    Definition: Data Validation restricts user input based on predefined rules to ensure accurate data entry.
 
 - Example 1: Create a drop-down list for selecting predefined options.
@@ -97,6 +142,135 @@ Steps:
 
 ------------------------------------------------------------------------------------
 
+examples:
+==========
+
+AutoCorrect
+------------
+1. What is the purpose of AutoCorrect in Excel, and how can you add a custom entry?
+2. AutoCorrect keeps changing “hr” to “hour” when typing — how do you stop that?
+3. How can you make Excel automatically replace “abc” with “Accounts Department”?
+
+Data Validation
+----------------
+4. How do you restrict a cell to accept only numbers between 1 and 100?
+5. How can you create a dropdown list of departments (HR, Sales, IT, Admin) in a cell?
+6. How do you show a custom error message when someone enters invalid data?
+7. How can you apply data validation to prevent duplicate entries in a column?
+
+Text and Number Separation
+----------------------------
+8. Column A contains mixed entries like 123, Hello, 456, World. How can you extract only the text using "Go To Special"?
+9. How do you extract only the numbers from a column with mixed text and numbers using "Go To Special"?
+10. What's an Excel formula to separate numbers and text if they're in the same cell, e.g., ABC123?
+
+CONCATENATE / CONCAT / TEXTJOIN
+---------------------------------
+11. Write a formula to combine First Name in A1 and Last Name in B1 with a space in between.
+12. What's the difference between CONCATENATE, CONCAT, and TEXTJOIN?
+13. How would you join values in cells A1 through A5 into one cell, separated by commas?
+14. Use TEXTJOIN to combine cell values in a row while skipping empty cells.
+
+Today, Date, Time
+-------------------
+15. What formula gives you today’s date?
+16. What formula gives you the current time?
+17. How do you calculate the number of days between today and a given date in cell A1?
+18. Write a formula to return the current date and time in one cell.
+19. How do you auto-insert today’s date into a cell and keep it fixed (not updating)?
+20. What is the difference between NOW() and TODAY() functions in Excel?
+
+------------------------------------------------------------------------------------------------------
+
+ANSWER:
+========
+1. Purpose & Custom Entry:
+   AutoCorrect in Excel automatically corrects common typing errors and replaces shorthand with full text.
+   To add a custom entry:
+   - File > Options > Proofing > AutoCorrect Options
+   - Replace: e.g., "abc", With: e.g., "Accounts Department"
+   - Click Add, then OK.
+
+2. Stop “hr” becoming “hour”:
+   - File > Options > Proofing > AutoCorrect Options
+   - Find and delete the entry for “hr”.
+
+3. Auto-replace “abc” with “Accounts Department”:
+   - Same steps as #1.
+
+Data Validation
+----------------
+4. Restrict to numbers between 1 and 100:
+   - Select cells > Data tab > Data Validation
+   - Allow: Whole number, Data: between, Min: 1, Max: 100
+
+5. Dropdown list of departments:
+   - Select cells > Data tab > Data Validation
+   - Allow: List, Source: HR, Sales, IT, Admin
+
+6. Custom error message:
+   - Data Validation > Error Alert tab
+   - Show error alert, add Title and Error Message
+
+7. Prevent duplicate entries:
+   - Select range (e.g., A2:A100)
+   - Use formula in Custom validation:
+     =COUNTIF($A$2:$A$100, A2)=1
+
+Text and Number Separation
+----------------------------
+8. Extract only text using Go To Special:
+   - Select column > Home > Find & Select > Go To Special > Constants
+   - Uncheck Numbers, leave Text checked
+
+9. Extract numbers using Go To Special:
+   - Same as above, but uncheck Text, leave Numbers checked
+
+10. Separate numbers and text (e.g., ABC123):
+   Text:
+   =TEXTJOIN("", TRUE, IF(ISERR(MID(A1, ROW(INDIRECT("1:"&LEN(A1))), 1)*1), MID(A1, ROW(INDIRECT("1:"&LEN(A1))), 1), ""))
+   Number:
+   =TEXTJOIN("", TRUE, IF(ISNUMBER(MID(A1, ROW(INDIRECT("1:"&LEN(A1))), 1)*1), MID(A1, ROW(INDIRECT("1:"&LEN(A1))), 1), ""))
+
+CONCATENATE / CONCAT / TEXTJOIN
+---------------------------------
+11. Combine First and Last Name:
+    =A1 & " " & B1
+
+12. Difference:
+    - CONCATENATE: Legacy, joins items.
+    - CONCAT: Modern, supports ranges.
+    - TEXTJOIN: Supports delimiters and skipping blanks.
+
+13. Join A1 to A5 with commas:
+    =TEXTJOIN(",", TRUE, A1:A5)
+
+14. TEXTJOIN skip blanks in a row:
+    =TEXTJOIN(",", TRUE, A1:E1)
+
+Today, Date, Time
+-------------------
+15. Today’s date:
+    =TODAY()
+
+16. Current time:
+    =NOW()
+
+17. Days between today and date in A1:
+    =TODAY() - A1
+
+18. Current date and time:
+    =NOW()
+
+19. Fixed date (not updating):
+    Ctrl + ;
+
+20. NOW() vs TODAY():
+    - TODAY(): Date only.
+    - NOW(): Date and time.
+
+=================================================================================================
+
 7. Dynamic Named Ranges
    Definition: Named ranges that automatically expand or shrink based on the amount of data.
 
@@ -105,12 +279,199 @@ Steps:
 
 Steps:OFFSET(reference, rows, cols, height, width)
 
+reference: Starting cell
+rows / cols: Number of rows/columns to move
+height / width: Size of the resulting range
+
 1. Go to Formulas > Name Manager > New.
 2. Use formula=OFFSET(D5,0,-1,1,1)
 3. Click OK.
 
 Sum------=SUM(OFFSET(F5,0,0,3,1))
+================================================================
+  OFFSET Function Example
+===========================
+
+Original Table (A1:E10)
+------------------------
+A1   B1   C1   D1   E1
+A2   B2   C2   D2   E2
+A3   B3   C3   D3   E3
+A4   B4   C4   D4   E4
+A5   B5   C5   D5   E5
+A6   B6   C6   D6   E6
+A7   B7   C7   D7   E7
+A8   B8   C8   D8   E8
+A9   B9   C9   D9   E9
+A10  B10  C10  D10  E10
+
+Goal: Extract rows 5 to 10 and columns B to D
+
+OFFSET Formula:
+---------------
+=OFFSET(A1, 4, 1, 6, 3)
+
+Explanation:
+------------
+Reference cell   : A1
+Move down        : 4 rows ? lands on row 5
+Move right       : 1 column ? lands on column B
+Return rows      : 6 rows (row 5 to 10)
+Return columns   : 3 columns (B, C, D)
+
+Resulting Range (B5:D10):
+--------------------------
+B5   C5   D5
+B6   C6   D6
+B7   C7   D7
+B8   C8   D8
+B9   C9   D9
+B10  C10  D10
 ------------------------------------------------------------------------------------
+
+===============================
+        INDIRECT Function
+===============================
+
+Function Syntax:
+---------------
+INDIRECT(ref_text, [a1])
+
+- ref_text : A reference in text format (e.g., "C7" or "B5:D10")
+- a1       : Optional (TRUE for A1 style, FALSE for R1C1 style)
+
+-------------------------------
+Original Table (A1:E10)
+-------------------------------
+A1    B1    C1    D1    E1
+A2    B2    C2    D2    E2
+A3    B3    C3    D3    E3
+A4    B4    C4    D4    E4
+A5    B5    C5    D5    E5
+A6    B6    C6    D6    E6
+A7    B7    C7    D7    E7
+A8    B8    C8    D8    E8
+A9    B9    C9    D9    E9
+A10   B10   C10   D10   E10
+
+-----------------------------------
+Goal: Extract B5:D10 using INDIRECT
+-----------------------------------
+
+Method 1: Static Reference
+--------------------------
+=INDIRECT("B5:D10")
+
+? Returns:
+
+B5    C5    D5
+B6    C6    D6
+B7    C7    D7
+B8    C8    D8
+B9    C9    D9
+B10   C10   D10
+
+Method 2: Dynamic Reference
+---------------------------
+Assume:
+
+A1 = B5  
+A2 = D10
+
+Then formula:
+
+=INDIRECT(A1 & ":" & A2)
+
+? Returns same range: B5:D10
+
+------------------------------------
+INDIRECT is useful for:
+- Referring to a cell address from another cell
+- Dynamically changing the target of formulas
+- Named ranges, dynamic ranges
+----------------------------------------------------------------
+===============================
+  INDIRECT with Data Validation
+===============================
+
+GOAL:
+-----
+Use a dropdown to select a region (North, South, or East),
+and automatically display the corresponding data.
+
+STRUCTURE:
+----------
+Data is arranged like this:
+
+        A        B        C
+     --------------------------
+1 |  North   South   East
+2 |   N1       S1      E1
+3 |   N2       S2      E2
+4 |   N3       S3      E3
+
+=======================
+STEP-BY-STEP INSTRUCTION
+=======================
+
+Step 1: Name Your Ranges
+------------------------
+We will create 3 named ranges:
+
+- Select cells A2:A4 ? name it: North
+- Select cells B2:B4 ? name it: South
+- Select cells C2:C4 ? name it: East
+
+How to name a range:
+- Select the cell range (e.g., A2:A4)
+- Click on the Name Box (top-left of formula bar)
+- Type the name (e.g., North)
+- Press Enter
+
+Repeat this process for South and East.
+
+Purpose:
+--------
+Now we can refer to those cells using the text "North", "South", or "East" in formulas.
+
+Step 2: Create a Dropdown
+-------------------------
+We want the user to select the region name from a list.
+
+In cell E1:
+- Go to the Data tab
+- Click on Data Validation
+- Under "Allow", choose: List
+- In "Source", enter: North,South,East
+- Click OK
+
+Now cell E1 has a dropdown menu with:
+- North
+- South
+- East
+
+Step 3: Use INDIRECT to Link to Selection
+-----------------------------------------
+In cell F1, enter the following formula:
+
+=INDIRECT(E1)
+
+Explanation:
+------------
+- If E1 = "North", then the formula becomes =INDIRECT("North")
+  ? This returns the values in A2:A4
+- If E1 = "South", then values from B2:B4
+- If E1 = "East", then values from C2:C4
+
+The result in cells F1:F3 will automatically update based on the selected region in E1.
+
+Result Example:
+---------------
+If E1 = South ? F1:F3 will show:
+S1
+S2
+S3
+----------------------------------------------------------------
 MATCH Function in Excel:=MATCH(H3,A:A,0)
 ==========================
 
@@ -437,8 +798,201 @@ MATCH Function
     =MATCH(MAX(E:E),E:E,0)
 
 ======================================================================================================================================
+Practical Excel Questions with Input and Output
+----------------------------------------------------------------------------
+FLASH FILL
+----------
+
+1. Get initials from full name
+Input : John Michael Doe
+Output: J.M.D
+Step 1: Type 'J.M.D' in the next column
+Step 2: Select the cell
+Step 3: Press Ctrl + E to fill initials
+
+2. Extract year from invoice
+Input : INV-2025-AB45
+Output: 2025
+Step 1: Type '2025' next to invoice
+Step 2: Select that cell
+Step 3: Press Ctrl + E
+
+3. Extract domain from email
+Input : alex.johnson@gmail.com
+Output: gmail.com
+Step 1: Type 'gmail.com' in next column
+Step 2: Click cell
+Step 3: Press Ctrl + E
+
+4. Join first and last name
+Input : David, Miller
+Output: David Miller
+Step 1: Type 'David Miller' next to names
+Step 2: Select the cell
+Step 3: Press Ctrl + E
+
+5. Reformat date
+Input : 20250806
+Output: 06-08-2025
+Step 1: Type '06-08-2025'
+Step 2: Select cell
+Step 3: Press Ctrl + E
+
+DATA VALIDATION
+---------------
+
+6. Dynamic dropdown list
+Input : A2:A10 with items
+Output: Dropdown updates dynamically
+Step 1: Create named range using OFFSET
+Step 2: Go to Data > Data Validation > List
+Step 3: Enter named range name
+
+7. EMP ID format validation
+Input : EMP-1234
+Output: Valid format
+Step 1: Select column
+Step 2: Use Data Validation > Custom
+Step 3: Formula =AND(LEFT(A2,4)="EMP-",ISNUMBER(MID(A2,5,4)*1))
+
+8. Dependent dropdown
+Input : Country = India
+Output: Show Indian cities
+Step 1: Create named range for each country
+Step 2: Use INDIRECT in Data Validation
+Step 3: Formula =INDIRECT(A2)
+
+9. Date in current year
+Input : 06/08/2025
+Output: Valid
+Step 1: Select cell
+Step 2: Use Data Validation > Date
+Step 3: Set start 01/01/2025, end 31/12/2025
+
+10. Custom error message
+Input : Banana123
+Output: Shows error message
+Step 1: Data Validation > List
+Step 2: Set valid values
+Step 3: Enter custom error alert
+
+TEXTJOIN / CONCATENATE
+----------------------
+
+11. Join skipping blanks
+Input : John, , Smith
+Output: John Smith
+Step 1: Use =TEXTJOIN(" ", TRUE, A2:C2)
+Step 2: Press Enter
+Step 3: Copy formula down
+
+12. Join with commas
+Input : Product1, Product2, Product3
+Output: Product1, Product2, Product3
+Step 1: Use =TEXTJOIN(", ", TRUE, A2:A4)
+Step 2: Press Enter
+Step 3: Fill as needed
+
+13. Concatenate with space
+Input : Room, 101
+Output: Room 101
+Step 1: Use =A2 & " " & B2
+Step 2: Press Enter
+Step 3: Copy formula
+
+14. Skip zeros
+Input : 0, 200, 0, 450, 320
+Output: 200, 450, 320
+Step 1: =TEXTJOIN(", ", TRUE, IF(A2:E2<>0, A2:E2, ""))
+Step 2: Enter (array if needed)
+Step 3: Copy formula
+
+15. Skip errors
+Input : #DIV/0!, 45, #N/A, 90
+Output: 45, 90
+Step 1: =TEXTJOIN(", ", TRUE, IF(ISNUMBER(A2:E2), A2:E2, ""))
+Step 2: Press Enter
+Step 3: Copy down
+
+DYNAMIC NAMED RANGES
+--------------------
+
+16. Auto-expanding list
+Input : Items in A2:A10
+Output: Expands with new items
+Step 1: Use OFFSET formula
+Step 2: Define Name with Name Manager
+Step 3: Use name in dropdown or formula
+
+17. Auto-updating chart
+Input : Sales data in A2:A10
+Output: Chart updates when new data added
+Step 1: Define dynamic named range
+Step 2: Insert chart
+Step 3: Use named range as source
+
+18. Get last filled cell
+Input : A2:A100
+Output: Last filled row reference
+Step 1: Use =A2:INDEX(A:A, COUNTA(A:A))
+Step 2: Press Enter
+Step 3: Apply range in formulas
+
+19. Dynamic dropdown
+Input : Add new item to named range
+Output: Dropdown shows new item
+Step 1: Create OFFSET-based range
+Step 2: Use in Data Validation
+Step 3: Add new values, auto-updates
+
+20. Dynamic summary
+Input : Monthly values
+Output: Summary auto-updates
+Step 1: Use dynamic named range
+Step 2: Use in formula (e.g., SUM)
+Step 3: Update input, summary changes
+
+OFFSET / INDIRECT / MATCH
+--------------------------
+
+21. OFFSET + MATCH
+Input : Find Sales column, return row 5
+Output: Row 5 value from "Sales"
+Step 1: =MATCH("Sales", A1:Z1, 0)
+Step 2: Use with OFFSET: =OFFSET(A1,4,MATCH(...) - 1)
+Step 3: Press Enter
+
+22. INDIRECT with sheet name
+Input : A1 = "Sheet1!A2:A10"
+Output: Pulls data from that range
+Step 1: Type range in A1
+Step 2: Use =INDIRECT(A1)
+Step 3: Press Enter
+
+23. INDEX + MATCH
+Input : Name = John
+Output: Returns John's salary
+Step 1: Use =MATCH("John", NameRange, 0)
+Step 2: Use with INDEX: =INDEX(SalaryRange, MATCH(...))
+Step 3: Press Enter
+
+24. Match column dynamically
+Input : Select 'Revenue'
+Output: Show values from Revenue column
+Step 1: MATCH("Revenue", Headers, 0)
+Step 2: Use column number with INDEX
+Step 3: Get full column data
+
+25. INDIRECT + OFFSET
+Input : A1 = Sheet1!A2:A10
+Output: Pulls from defined range
+Step 1: Use =INDIRECT(A1)
+Step 2: Combine with OFFSET if needed
+Step 3: Use in formula or chart
+================================================================
 
 Referencing in Formulas in Excel
+-----------------------------------
 
 In Excel, referencing in formulas allows users to use values from different cells or ranges. There are three types of references:
 
@@ -526,7 +1080,8 @@ Check if a Value Exists in the Named Range:
 
 This is how you create and use Named Ranges in Excel Online
 
-=====================================================================================================================Named Ranges in Excel Online - Example
+=====================================================================================================================
+Named Ranges in Excel Online - Example
 
 1 How to Create a Named Range in Excel Online
 
@@ -859,6 +1414,637 @@ Advanced Level Validation in Excel - Tasks and Answers
 
 ====================================================================================================================================
 
+1) Convert rows to columns (Transpose)
+--------------------------------------
+One-off transpose (Paste Special)
+Excel:
+1. Select A1:F12 -> Ctrl+C.
+2. Select a column for paste the data (you can also select sheet also)
+3. Home -> click paste arrow -> Paste Special -> Transpose -> OK.
+
+
+
+Dynamic transpose (updates when source changes)
+=================================================
+syntax: =TRANSPOSE(Array)
+enter: =TRANSPOSE(A1:F12) and press Enter.
+
+
+====================================================================================================================================
+
+2) minimize and maximize
+===========================
+
+1) Select rows or columns you want to group.
+
+   Example: Select rows 2–6.
+
+2) Go to the Data tab on the ribbon.
+
+3) In the Outline group → click Group.
+
+4) A little minus (-) button appears at the left (for rows) or top (for columns).
+
+5) Click the minus → the rows/columns collapse (minimize).
+
+6) A plus (+) button appears → click it to expand (maximize).
+
+(Shortcut: Alt + Shift + → groups, Alt + Shift + ← ungroups.)
+
+====================================================================================================================================
+
+3) Turn Range into Table + Use Slicer (Excel)--->Filter
+=====================================================
+
+1) Select the data range (or just click anywhere inside it).
+
+2) Press Ctrl + T (or go to Insert → Table).
+
+3) Make sure “My table has headers” is checked.
+
+4) Click OK → your data is now a structured Table.
+
+5) Go to the Table Design tab (appears when the table is selected).
+
+6) Click Insert Slicer.
+
+7) A popup shows all your header names (columns).
+
+   Example: Name, Dept, Score, Status
+
+8) Tick the boxes for the fields you want slicers for → click OK.
+
+9) A Slicer panel (button filter box) appears for each chosen column.
+
+10 Click one or more buttons inside the slicer → the table filters instantly.
+
+     Example: Click “Sales” in the Dept slicer → only Sales rows remain.
+
+To clear the filter, click the Clear Filter icon (in top-right of slicer).
+
+====================================================================================================================================
+4) Delete Blank Cells/Rows in Excel
+========================================
+
+1) Select the data range (for example A1:F12).
+
+2) Go to the Home tab.
+
+3) In the Editing group → click Find & Select → choose Go To Special….
+
+4) In the dialog → select Blanks → click OK.
+
+5) Now all blank cells in the selected range are highlighted.
+
+6) Press Ctrl + – (Control + Minus).
+
+   A popup asks how to shift cells. Choose:
+
+   Entire row → deletes whole rows where blanks were found.
+
+(Or “Entire column” if you prefer to remove columns.)
+
+7) Click OK → all rows with blanks are deleted.
+
+====================================================================================================================================
+
+5)Conditional Formatting (examples)
+====================================
+A) Highlight high scores (≥ 85)
+=================================
+
+Excel
+
+Select the Score column (E:E or the score cells in your table).
+
+Home → Conditional Formatting → Highlight Cells Rules → Greater Than…
+
+Enter 85 → choose a format → OK.
+
+Google Sheets
+
+Select Score cells.
+
+Format → Conditional formatting.
+
+Format rules: Greater than or equal to → 85 → choose a style → Done.
+
+
+B) Color scale by Score
+===========================
+
+Excel: Home → Conditional Formatting → Color Scales → choose a 3-color scale.
+
+Sheets: In the conditional format sidebar, pick Color scale tab → choose a 3-color scale.
+
+C) Flag duplicate Names
+=========================
+
+Excel: Select Name column → Home → Conditional Formatting → Highlight Cells Rules → Duplicate Values…
+=============================================================================================================================================================
+
+22/8/2025
+==========
+VBA:
+=====
+Function NumberToWords(ByVal MyNumber)
+    Dim UnitsArray As Variant
+    Dim TensArray As Variant
+    Dim TempStr As String
+    Dim DecimalPlace As Integer
+    Dim Count As Integer
+    Dim DecimalPart As String
+    Dim DecimalWords As String
+    
+    ' Define arrays for units and tens
+    UnitsArray = Array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", _
+        "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen")
+    TensArray = Array("", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety")
+    
+    ' Convert MyNumber to a string and trim extra spaces
+    MyNumber = Trim(CStr(MyNumber))
+    
+    ' Find position of decimal place, if any
+    DecimalPlace = InStr(MyNumber, ".")
+    
+    ' Convert cents (decimal part) to words
+    If DecimalPlace > 0 Then
+        DecimalPart = Mid(MyNumber, DecimalPlace + 1)
+        MyNumber = Left(MyNumber, DecimalPlace - 1)
+    Else
+        DecimalPart = ""
+    End If
+    
+    Count = 1
+    Do While MyNumber <> ""
+        Select Case Count
+            Case 1
+                TempStr = ConvertHundreds(Right(MyNumber, 3))
+            Case 2
+                TempStr = ConvertHundreds(Right(MyNumber, 3)) & " Thousand "
+            Case 3
+                TempStr = ConvertHundreds(Right(MyNumber, 3)) & " Million "
+            Case 4
+                TempStr = ConvertHundreds(Right(MyNumber, 3)) & " Billion "
+        End Select
+        NumberToWords = TempStr & NumberToWords
+        If Len(MyNumber) > 3 Then
+            MyNumber = Left(MyNumber, Len(MyNumber) - 3)
+        Else
+            MyNumber = ""
+        End If
+        Count = Count + 1
+    Loop
+    
+    NumberToWords = Application.Trim(NumberToWords)
+    
+    ' Add decimal part to the words
+    If DecimalPart <> "" Then
+        DecimalWords = " point"
+        For i = 1 To Len(DecimalPart)
+            DecimalWords = DecimalWords & " " & UnitsArray(Val(Mid(DecimalPart, i, 1)))
+        Next i
+        NumberToWords = NumberToWords & DecimalWords
+    End If
+End Function
+
+Private Function ConvertHundreds(ByVal MyNumber)
+    Dim Result As String
+    Dim UnitsArray As Variant
+    Dim TensArray As Variant
+    
+    UnitsArray = Array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", _
+        "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen")
+    TensArray = Array("", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety")
+    
+    MyNumber = Right("000" & MyNumber, 3)
+    
+    ' Convert the hundreds place.
+    If Mid(MyNumber, 1, 1) <> "0" Then
+        Result = UnitsArray(Val(Mid(MyNumber, 1, 1))) & " Hundred "
+    End If
+    
+    ' Convert the tens and units place.
+    If Val(Mid(MyNumber, 2, 2)) < 20 Then
+        Result = Result & UnitsArray(Val(Mid(MyNumber, 2, 2)))
+    Else
+        Result = Result & TensArray(Val(Mid(MyNumber, 2, 1)))
+        Result = Result & " " & UnitsArray(Val(Mid(MyNumber, 3, 1)))
+    End If
+    
+    ConvertHundreds = Result
+End Function
+
+=====================================================================================
+Function ConvertToRupees(ByVal MyNumber)
+'UpdatebyExtendoffice
+    Dim Units As String, SubUnits As String, TempStr As String
+    Dim DecimalPlace As Integer, Count As Integer
+    Dim Place(9) As String
+    Place(2) = " Thousand "
+    Place(3) = " Lakh "
+    Place(4) = " Crore "
+    
+    MyNumber = Trim(Str(MyNumber))
+    DecimalPlace = InStr(MyNumber, ".")
+    
+    If DecimalPlace > 0 Then
+        SubUnits = GetTens(Left(Mid(MyNumber, DecimalPlace + 1) & "00", 2))
+        MyNumber = Trim(Left(MyNumber, DecimalPlace - 1))
+    End If
+    
+    Count = 1
+    Do While MyNumber <> ""
+        TempStr = GetHundreds(Right(MyNumber, 3))
+        If TempStr <> "" Then Units = TempStr & Place(Count) & Units
+        If Len(MyNumber) > 3 Then
+            MyNumber = Left(MyNumber, Len(MyNumber) - 3)
+        Else
+            MyNumber = ""
+        End If
+        Count = Count + 1
+    Loop
+    
+    ConvertToRupees = "Rupees " & Application.WorksheetFunction.Trim(Units)
+    If SubUnits <> "" Then
+        ConvertToRupees = ConvertToRupees & " and " & SubUnits & " Paise"
+    End If
+    ConvertToRupees = ConvertToRupees & " Only"
+End Function
+
+Private Function GetHundreds(ByVal MyNumber)
+    Dim Result As String
+    If Val(MyNumber) = 0 Then Exit Function
+    MyNumber = Right("000" & MyNumber, 3)
+    
+    If Mid(MyNumber, 1, 1) <> "0" Then
+        Result = GetDigit(Mid(MyNumber, 1, 1)) & " Hundred "
+    End If
+    
+    If Mid(MyNumber, 2, 1) <> "0" Then
+        Result = Result & GetTens(Mid(MyNumber, 2))
+    Else
+        Result = Result & GetDigit(Mid(MyNumber, 3))
+    End If
+    GetHundreds = Result
+End Function
+
+Private Function GetTens(TensText)
+    Dim Result As String
+    If Val(Left(TensText, 1)) = 1 Then
+        Select Case Val(TensText)
+            Case 10: Result = "Ten"
+            Case 11: Result = "Eleven"
+            Case 12: Result = "Twelve"
+            Case 13: Result = "Thirteen"
+            Case 14: Result = "Fourteen"
+            Case 15: Result = "Fifteen"
+            Case 16: Result = "Sixteen"
+            Case 17: Result = "Seventeen"
+            Case 18: Result = "Eighteen"
+            Case 19: Result = "Nineteen"
+        End Select
+    Else
+        Select Case Val(Left(TensText, 1))
+            Case 2: Result = "Twenty "
+            Case 3: Result = "Thirty "
+            Case 4: Result = "Forty "
+            Case 5: Result = "Fifty "
+            Case 6: Result = "Sixty "
+            Case 7: Result = "Seventy "
+            Case 8: Result = "Eighty "
+            Case 9: Result = "Ninety "
+        End Select
+        Result = Result & GetDigit(Right(TensText, 1))
+    End If
+    GetTens = Result
+End Function
+
+Private Function GetDigit(Digit)
+    Select Case Val(Digit)
+        Case 1: GetDigit = "One"
+        Case 2: GetDigit = "Two"
+        Case 3: GetDigit = "Three"
+        Case 4: GetDigit = "Four"
+        Case 5: GetDigit = "Five"
+        Case 6: GetDigit = "Six"
+        Case 7: GetDigit = "Seven"
+        Case 8: GetDigit = "Eight"
+        Case 9: GetDigit = "Nine"
+        Case Else: GetDigit = ""
+    End Select
+End Function
+===============================================================
+https://www.extendoffice.com/documents/excel/5905-excel-convert-number-to-words-in-rupees.html
+===========================================================================================================================
+
+
+26/8/2025
+============
+Freeze Panes in Excel
+-------------------------------
+
+1) Freeze Top Row
+- Go to View tab → Freeze Panes → Freeze Top Row
+- Keeps the first row visible while scrolling down.
+
+2) Freeze First Column
+- Go to View tab → Freeze Panes → Freeze First Column
+- Keeps the first column visible while scrolling right.
+
+3) Freeze Panes (Custom)
+- Select the cell below the row(s) and to the right of the column(s) you want to keep visible.
+- Go to View tab → Freeze Panes → Freeze Panes (first option).
+- Everything above and left of the selected cell stays frozen.
+
+Example:
+- To freeze Row 1 and Column A, select cell B2 → View → Freeze Panes.
+
+4) Unfreeze Panes
+- Go to View tab → Freeze Panes → Unfreeze Panes
+===========================================================================================================================
+
+
+Convert Number to Words in Excel
+----------------------------------
+Step 1: Enable Developer Tab
+- Go to File → Options → Customize Ribbon.
+- Check the "Developer" option and click OK.
+
+Step 2: Insert VBA Code
+- On the Developer tab, click Visual Basic.
+- In the VBA window: Insert → Module.
+- Paste the following function code:
+
+Function NumberToText(ByVal MyNumber)
+    Dim Units As Variant, Tens As Variant
+    Dim Temp As String
+    Dim DecimalPlace As Integer, Count As Integer
+    ReDim Place(9) As String
+    Place(2) = " Thousand ": Place(3) = " Million "
+    Place(4) = " Billion ": Place(5) = " Trillion "
+    
+    ' Convert MyNumber to string and trim spaces
+    MyNumber = Trim(CStr(MyNumber))
+    
+    ' Convert whole number part
+    DecimalPlace = InStr(MyNumber, ".")
+    If DecimalPlace > 0 Then
+        MyNumber = Left(MyNumber, DecimalPlace - 1)
+    End If
+    
+    Count = 1
+    Do While MyNumber <> ""
+        Temp = ConvertHundreds(Right(MyNumber, 3))
+        If Temp <> "" Then
+            NumberToText = Temp & Place(Count) & NumberToText
+        End If
+        If Len(MyNumber) > 3 Then
+            MyNumber = Left(MyNumber, Len(MyNumber) - 3)
+        Else
+            MyNumber = ""
+        End If
+        Count = Count + 1
+    Loop
+    
+    NumberToText = Application.WorksheetFunction.Trim(NumberToText)
+End Function
+
+Private Function ConvertHundreds(ByVal MyNumber)
+    Dim Result As String
+    Dim Units As Variant, Tens As Variant
+    
+    Units = Array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine")
+    Tens = Array("", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety")
+    
+    If Val(MyNumber) = 0 Then Exit Function
+    
+    ' Hundreds place
+    If Len(MyNumber) = 3 Then
+        If Mid(MyNumber, 1, 1) <> "0" Then
+            Result = Units(Mid(MyNumber, 1, 1)) & " Hundred "
+        End If
+        MyNumber = Right(MyNumber, 2)
+    End If
+    
+    ' Tens and ones
+    If Val(MyNumber) < 20 Then
+        Dim Teens As Variant
+        Teens = Array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", _
+                      "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", _
+                      "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen")
+        Result = Result & Teens(Val(MyNumber))
+    Else
+        Result = Result & Tens(Val(Left(MyNumber, 1)))
+        If Right(MyNumber, 1) <> "0" Then
+            Result = Result & " " & Units(Val(Right(MyNumber, 1)))
+        End If
+    End If
+    
+    ConvertHundreds = Result
+End Function
+
+Step 3: Use the Function
+- In Excel, select a cell.
+- Type: =NumberToText(10)
+- Press Enter.
+- Result: Ten
+
+===========================================================================================================================
+
+Merge & Center in Excel
+-------------------------------
+1) Select the cells you want to merge.
+
+2) Go to the Home tab → Alignment group → click "Merge & Center".
+
+   - Merge & Center → Combines selected cells into one cell and centers the text.
+   - Merge Across → Merges cells in each row individually (without centering).
+   - Merge Cells → Merges cells into one cell (text will align as normal, not centered).
+   - Unmerge Cells → Splits the merged cell back into individual cells.
+
+3) Note:
+   - Only the value in the top-left cell is kept. Other values will be deleted.
+   - Useful for making headings across multiple columns.
+===========================================================================================================================
+
+Date Format in Excel
+-------------------------------
+
+Method 1: Convert Text to Date using Text to Columns
+1) Select the column that has text-formatted dates.
+2) Go to Data tab → Text to Columns.
+3) Choose "Delimited" → click Next → Next.
+4) In Column Data Format, choose "Date" and select the correct format (e.g. DMY, MDY).
+5) Click Finish.
+→ The text values will convert into proper Excel dates.
+
+Method 2: Change Date Format
+1) Select the cell(s) with the date.
+2) Right-click → Format Cells.
+3) Under "Number" tab → choose "Date".
+4) Select the required date format (e.g. 29-08-2025, 8/29/2025, etc.).
+5) Click OK.
+→ The date will display in the chosen format.
+===========================================================================================================================
+
+
+Check Box in Excel (with Boolean Values)
+---------------------------------------------
+Step 1: Enable Developer Tab
+- Go to File → Options → Customize Ribbon.
+- Tick "Developer" and click OK.
+
+Step 2: Insert Check Box
+- Select the cell where you want a checkbox.
+- Go to Developer tab → Insert → Form Controls → Check Box.
+- Draw the check box in the worksheet.
+- Right-click the check box → Edit Text → delete or rename the label if needed.
+
+Step 3: Get Boolean Values (TRUE / FALSE)
+- Right-click the check box → Format Control.
+- Go to the "Control" tab.
+- In "Cell link", select an empty cell where you want the result to appear → click OK.
+- When the check box is checked → the linked cell shows TRUE.
+- When unchecked → the linked cell shows FALSE.
+
+Usage:
+- These TRUE/FALSE values can be used in formulas (e.g. IF, AND, OR).
+===========================================================================================================================
+
+How to Link Excel in PPT
+-------------------------------
+
+1) Open PowerPoint → Go to Insert tab → Text group.
+2) Click "Object".
+3) Choose "Create from file".
+4) Click "Browse" → Select the Excel file.
+5) Check the option "Display as icon".
+6) (Optional) Click "Change Icon" to select a different icon.
+7) Click OK.
+
+Result:
+- An Excel icon will appear in the slide.
+- When you double-click the icon, the linked Excel file will open.
+
+===========================================================================================================================
+
+How to Insert Image in Excel
+-------------------------------
+
+- Select any cell where you want to insert the picture.
+- Go to Insert → Illustrations → Pictures.
+- Choose a picture from your computer (or online).
+- Click Insert.
+- You can resize, move, or format the picture as needed.
+===========================================================================================================================
+
+Hide Picture in Excel
+-------------------------------
+
+- By default, hiding a row/column will not hide the picture.
+- To make the picture hide with the row/column:
+   Step 1: Select the picture → Right-click → Format Picture.
+   Step 2: Go to Size & Properties → Properties.
+   Step 3: Select "Move and size with cells".
+- Now, when you hide the row/column, the picture will also hide.
+===========================================================================================================================
+Insert PDF in Excel
+-------------------------------
+Method 1: Insert as Object
+1. Go to Insert tab → Text group → Object.
+2. Select "Create from File" → Browse → choose the PDF file.
+3. Options:
+   - Display as Icon → shows a PDF icon on the sheet.
+   - Embed (OLE) → minimizes/embeds the PDF.
+4. Click OK.
+
+Result:
+- A PDF object/icon is added.
+- Double-click to open the PDF.
+
+Method 2: Drag and Drop
+- Drag the PDF file into Excel directly.
+- Resize/format the PDF icon or object.
+
+Method 3: Hyperlink to PDF
+1. Insert → Illustrations → select an Icon (or Shape).
+2. Right-click the icon → Hyperlink.
+3. In "Existing File or Web Page" → browse and select PDF file → OK.
+4. Now, clicking the icon will open the linked PDF.
+
+===========================================================================================================================
+
+Convert PDF to Excel
+-------------------------------
+
+Step 1: Go to Data tab → Get Data → From File → From PDF.
+
+Step 2: Browse and select the PDF file.
+
+Step 3: Navigator window opens → shows tables/pages from PDF.
+- You can select multiple items.
+- Choose the required table(s).
+
+Step 4: Click Load.
+- Now all the data from PDF is successfully loaded into Excel.
+
+Step 5: On the right side (Queries & Connections pane):
+- Right-click the table name.
+- Select "Load To".
+- Choose:
+   a) New Worksheet → loads data into a new sheet.
+   b) Existing Worksheet → loads data into a selected cell.
+
+===========================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1. Important Formulas in Excel:
 
 - SUM: Adds a range of numbers.  
@@ -961,6 +2147,38 @@ Advanced Level Validation in Excel - Tasks and Answers
   Example: Insert Pivot Table -> Add to Pivot Chart for interactive data visualization (Creates a chart that updates based on pivot data).
 
 ====================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 10 Questions and Answers on Excel Formulas, Tables, Sorting, Filtering, and Charts
 
 Excel Formulas:

@@ -1998,53 +1998,6 @@ Step 5: On the right side (Queries & Connections pane):
 
 ===========================================================================================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 1. Important Formulas in Excel:
 
 - SUM: Adds a range of numbers.  
@@ -2148,38 +2101,186 @@ Step 5: On the right side (Queries & Connections pane):
 
 ====================================================================================================================================
 
+VBA Keyword:
+===========
+1. Sub ... End Sub
+------------------
+- Meaning: "Subroutine." Defines a block of code (macro).
+- Code starts with Sub and ends with End Sub.
+- Everything in between is executed when the subroutine runs.
+
+Example:
+Sub SayHello()
+    MsgBox "Hello!"
+End Sub
+--> When you run SayHello, a message box appears.
+
+ex:select cell-->enter =SayHello()
+output: Hello! appears in Box.
 
 
+2. Dim
+-------
+- Meaning: "Dimension." Used to declare variables.
+- Tells VBA to reserve space in memory for data.
+- Syntax: Dim variableName As DataType
+
+Common DataTypes:
+- Integer → whole numbers (-32768 to 32767)
+- Long → large whole numbers
+- Double → numbers with decimals
+- String → text
+- Variant → can hold anything
+
+Example:
+Sub TestDim()
+    Dim age As Integer
+    Dim name As String
+
+    age = 25
+    name = "John"
+
+    MsgBox name & " is " & age & " years old."
+End Sub
+--> Shows: John is 25 years old.
+====================================================================================================================================
 
 
+VBA LOOPS:
+===============
+
+Example 1 — Write numbers 1 to 5 in column A
+--------------------------------------------
+Sub Loop1()
+    Dim number As Integer
+    For number = 1 To 5
+        Cells(number, 1).Value = number   'Column 1 = A
+    Next number
+End Sub
+--> Fills A1:A5 with 1,2,3,4,5
 
 
+Example 2 — Multiply numbers by 2
+---------------------------------
+Sub Loop2()
+    Dim i As Integer
+    For i = 1 To 5
+        Cells(i, 2).Value = i * 2   ' Column 2 = B
+    Next i
+End Sub
+--> Fills B1:B5 with 2,4,6,8,10
 
 
+Example 3 — Show numbers in a message box
+-----------------------------------------
+Sub Loop3()
+    Dim i As Integer
+    For i = 1 To 5
+        MsgBox "Number is " & i
+    Next i
+End Sub
+--> Pops up a message box for each number 1–5
 
 
+Example 4 — Do While loop
+--------------------------
+Sub Loop4()
+    Dim i As Integer
+    i = 1
+    Do While i <= 5
+        Cells(i, 3).Value = "Row " & i   ' Column 3 = C
+        i = i + 1
+    Loop
+End Sub
+--> Fills C1:C5 with text: “Row 1”, “Row 2”, etc.
 
 
+Example 5 — For Each loop (color cells)
+---------------------------------------
+Sub Loop5()
+    Dim cell As Range
+    Dim i As Integer
+    For Each cell In Range("A1:A5")
+	cell(i,1).Value="cell " & i
+        cell.Interior.ColorIndex = 6   ' Yellow
+	i=i+1
+    Next cell
+End Sub
+--> Colors A1:A5 yellow
+
+=============================================================================================================================================
+
+VBA Array Loops:
+===================
+
+Example 1 — Loop through a fixed array
+--------------------------------------
+Sub ArrayLoop1()
+    Dim fruits(1 To 5) As String
+    Dim i As Integer
+    
+    ' Fill the array
+    fruits(1) = "Apple"
+    fruits(2) = "Banana"
+    fruits(3) = "Cherry"
+    fruits(4) = "Mango"
+    fruits(5) = "Grapes"
+    fruits(6) = "Gova"
+    
+    ' Loop through array
+    For i = 1 To 6
+        Cells(i, 1).Value = fruits(i)   ' Put in column A
+    Next i
+End Sub
+--> Result: A1–A6 filled with fruit names.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Example 2 — Use For Each with an array
+--------------------------------------
+Sub ArrayLoop2()
+    Dim colors As Variant
+    Dim c As Variant
+    Dim row As Integer
+    
+    ' Create an array directly
+    colors = Array("Red", "Green", "Blue", "Yellow")
+    
+    row = 1
+    For Each c In colors
+        Cells(row, 2).Value = c   ' Put in column B
+        row = row + 1
+    Next c
+End Sub
+--> Result: B1–B4 filled with color names.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+Example 3 — Numbers in array with calculations
+----------------------------------------------
+Sub ArrayLoop3()
+    Dim numbers As Variant
+    Dim i As Integer
+    
+    numbers = Array(10, 20, 30, 40, 50)
+    
+    For i = LBound(numbers) To UBound(numbers)
+        Cells(i + 1, 3).Value = numbers(i) * 2   ' Put double in column C
+    Next i
+End Sub
+--> Result: C1–C5 with 20, 40, 60, 80, 100.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Key Points:
+-----------
+- Array(...) → quick way to create arrays.
+- LBound(array) = first index (usually 0).
+- UBound(array) = last index.
+- Use For ... Next with indexes, or For Each for items.
+=============================================================================================================================================
 
 10 Questions and Answers on Excel Formulas, Tables, Sorting, Filtering, and Charts
+========================================================================================
 
 Excel Formulas:
 

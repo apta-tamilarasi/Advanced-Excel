@@ -95,7 +95,7 @@ Steps:
 
 ------------------------------------------------------------------------------------
 
-4. Shortcut for Date & Time Entry
+5. Shortcut for Date & Time Entry
    Definition: Excel provides shortcuts to quickly enter the current date or time.
 
 - Example 1: Press Ctrl + ; to insert today's date.
@@ -110,7 +110,7 @@ Steps:
 
 ------------------------------------------------------------------------------------
 
-5. Using CONCATENATE / TEXTJOIN
+6. Using CONCATENATE / TEXTJOIN
    Definition: These functions combine text from multiple cells into one.
 
 - Example 1: Merge first and last names automatically.
@@ -126,7 +126,7 @@ Steps:
 
 ------------------------------------------------------------------------------------
 
-6. AutoCorrect for Common Data
+7. AutoCorrect for Common Data
    Definition: AutoCorrect automatically replaces misspelled words or short forms with predefined text.
 
 - Example 1: Set shortcuts for frequently entered text.
@@ -287,7 +287,7 @@ height / width: Size of the resulting range
 2. Use formula=OFFSET(D5,0,-1,1,1)
 3. Click OK.
 
-Sum------=SUM(OFFSET(F5,0,0,3,1))
+Sum------=SUM(OFFSET(B5,0,0,3,1))
 ================================================================
   OFFSET Function Example
 ===========================
@@ -1540,8 +1540,339 @@ Sheets: In the conditional format sidebar, pick Color scale tab → choose a 3-c
 C) Flag duplicate Names
 =========================
 
+
 Excel: Select Name column → Home → Conditional Formatting → Highlight Cells Rules → Duplicate Values…
 =============================================================================================================================================================
+
+
+TOPIC 1: TRANSPOSE
+1. Convert a dataset where months are in rows and products are in columns so that products become rows and months become columns. Use Transpose without retyping any data.
+2. Use the TRANSPOSE() function to flip a 12x5 table dynamically. Ensure updates in the source table reflect automatically in the transposed table.
+3. You have employee IDs in cells A2:A51. Arrange them horizontally across row 2 without including blank cells using TRANSPOSE and FILTER functions.
+
+TOPIC 2: MINIMIZE / MAXIMIZE (SOLVER / GOAL SEEK)
+4. Build a Solver model to maximize company profit while respecting constraints for production cost, capacity, and demand.
+5. Minimize total transportation cost based on distance and unit cost between factories and stores. Define the objective function and constraints in Solver.
+6. Use Goal Seek to find the selling price needed to reach a target profit of $50,000 when cost and quantity are known.
+7. Given a portfolio of 5 assets with expected return and risk, use Solver to maximize return while keeping total risk below 10%.
+8. Determine the break-even point where total revenue equals total cost using Goal Seek. Identify the “Set cell” for this process.
+
+TOPIC 3: CONDITIONAL FORMATTING
+9. Highlight the top 10% of salespersons by revenue in green and the bottom 10% in red. Ensure the formatting updates automatically as data changes.
+10. Use a formula-based conditional format to highlight rows where delivery date is more than 10 days late.
+11. Create a heat map for student grades transitioning from red (low) to green (high).
+12. Highlight alternate rows only if column C equals “Active” using a formula.
+13. Highlight all sales figures below 90% of their respective regional targets.
+
+TOPIC 4: SLICER & PIVOT TABLE
+14. Create a PivotTable showing sales by region, category, and quarter. Add slicers for “Region” and “Product Category”.
+15. Connect a single slicer to control multiple PivotTables showing different metrics like Sales, Profit, and Returns.
+16. Build a PivotTable showing monthly sales per salesperson. Add a Timeline slicer to filter data by month and year.
+17. Display only the top 5 customers in a PivotTable while allowing slicer-based filtering by Region.
+
+TOPIC 5: DELETING BLANK CELLS
+18. Remove all blank rows from a dataset without deleting formulas in other columns.
+19. Write a formula or Power Query step to delete only rows where all cells are blank.
+20. Use Go To Special → Blanks to find and delete empty cells that interfere with sorting, and shift remaining data upward automatically.
+
+-------------------------------------
+BONUS SECTION: MIXED ADVANCED QUESTIONS
+-------------------------------------
+1. You receive a sales report where products are listed vertically by region, but your manager wants each region shown horizontally across columns. Without retyping, reorganize the data so that any update in the original table automatically updates the new one. (Hint: Use TRANSPOSE with dynamic references.)
+
+2. A company tracks revenue and expenses per quarter. Use Goal Seek to determine the required sales in Q4 to achieve a total annual profit of $250,000, given fixed costs and tax rate.
+
+3. Create a PivotTable dashboard summarizing monthly sales by product and region. Add a Slicer that allows users to filter by salesperson, and apply conditional formatting to highlight months where sales fall below 80% of target.
+
+4. You import a dataset from an external system and notice blank rows and columns scattered between data blocks. Explain two ways to remove all blank rows (using Go To Special and Power Query) without deleting formulas or headers.
+
+5. Build a Solver model that allocates limited resources among 3 departments to maximize total output, subject to budget and staff constraints. Present the result in a formatted PivotTable where departments performing below target are highlighted in red using conditional formatting.
+
+===============================================================================================================================
+
+ANSWER:
+=======
+
+TOPIC 1: TRANSPOSE
+Q1. Convert a dataset where months are in rows and products are in columns so that products become rows and months become columns. Use Transpose without retyping any data.
+Answer:
+- Example data (original, sheet Q1_Raw):
+  | Region | Jan | Feb | Mar |
+  | North  | 100 | 120 | 110 |
+  | South  | 80  | 95  | 90  |
+- Goal: Products (here Regions) become rows -> Months become columns (flip orientation).
+- Method 1 (Paste Special - Transpose):
+  1. Select original table (including headers).
+  2. Copy (Ctrl+C). Select target top-left cell and use Home → Paste → Paste Special → Transpose, or right-click → Paste Special → Transpose.
+  3. This creates a static transpose (not dynamic).
+- Method 2 (Dynamic using TRANSPOSE function):
+  1. Select a target range of appropriate size (here 3 columns x 3 rows become 3 rows x 3 columns).
+  2. Enter formula: =TRANSPOSE(Q1_Raw!A1:D3) and press Ctrl+Shift+Enter in older Excel. In modern Excel dynamic arrays, simply =TRANSPOSE(Q1_Raw!A1:D3).
+  3. The transposed table updates automatically when source changes.
+- Notes: If you want to keep headers consistent, ensure header row/column included in the source range. If you need to exclude blanks, combine with FILTER: =TRANSPOSE(FILTER(A1:D10, A1:A10<>""))
+
+Q2. Use the TRANSPOSE() function to flip a 12x5 table dynamically. Ensure updates in the source table reflect automatically in the transposed table.
+Answer:
+- Example: Source range Q2_Raw A1:E12 (12 rows, 5 columns).
+- Formula: In a blank area enter =TRANSPOSE(Q2_Raw!A1:E12). In modern Excel this automatically spills.
+- If you need to lock ranges as new rows are added use a structured table (Insert → Table named tblSource) then: =TRANSPOSE(tblSource[#All])
+- Troubleshooting: If #SPILL! appears, ensure destination is clear. If you need to convert to values, Copy → Paste Values.
+
+Q3. You have employee IDs in cells A2:A51. Arrange them horizontally across row 2 without including blank cells using TRANSPOSE and FILTER functions.
+Answer:
+- Example: Q3_Raw column A has some blanks.
+- Formula (modern Excel): =TRANSPOSE(FILTER(A2:A51, A2:A51<>""))
+- This filters out blanks and transposes the filtered vertical list to horizontal.
+- For older Excel without FILTER, use an INDEX/SMALL approach to generate a compact list then TRANSPOSE that array.
+==============================================================================================================================
+TOPIC 2: MINIMIZE / MAXIMIZE (SOLVER / GOAL SEEK)
+====================================================
+Q4. Build a Solver model to maximize company profit while respecting constraints for production cost, capacity, and demand.
+Answer:
+- Example data (sheet Q4_Raw):
+  Products: A,B
+  Price, Cost, Capacity per product, Demand limit
+  A: Price=150, Cost=90, Capacity=500, Demand=400
+  B: Price=200, Cost=120, Capacity=300, Demand=250
+- Setup:
+  1. Decision variables: cells for production quantities xA and xB.
+  2. Objective: Profit = (Price-Cost)*xA + (Price-Cost)*xB — place formula in a cell (e.g., B10).
+  3. Constraints:
+     - 0 ≤ xA ≤ DemandA (xA cell constraints)
+     - 0 ≤ xB ≤ DemandB
+     - Resource constraints: e.g., Machine hours: 0.5*xA + 0.8*xB ≤ AvailableHours
+  4. Open Data → Solver. Set 'Set Objective' to Profit cell (choose 'Max').
+  5. By Changing Variable Cells: xA, xB.
+  6. Add constraints as listed. Choose Simplex LP if linear, or GRG Nonlinear otherwise.
+  7. Solve and keep solution.
+- Notes: Ensure integrality if quantities must be integers (tick 'Make Unconstrained Variables Integer'). Save model and scenario for auditing.
+
+Q5. Minimize total transportation cost based on distance and unit cost between factories and stores. Define the objective function and constraints in Solver.
+Answer:
+- Example: Q5_Raw has factories F1,F2 and stores S1,S2 with distances and unit costs.
+- Setup:
+  1. Decision variables: shipments x_F1S1, x_F1S2, x_F2S1, x_F2S2.
+  2. Objective: TotalCost = sum(unit_cost_ij * x_ij) (cell formula summing all routes).
+  3. Constraints:
+     - Supply constraints: shipments from Fi ≤ supply_i.
+     - Demand constraints: shipments to Sj ≥ demand_j (or = depending model).
+     - Non-negativity x_ij ≥ 0.
+  4. Solver: Set Objective cell = TotalCost, choose 'Min' and changing cells are x_ij. Choose Simplex LP (linear model).
+- Notes: For transportation problems with integer constraints, use Integer Simplex or set integer constraints on cells.
+
+Q6. Use Goal Seek to find the selling price needed to reach a target profit of $50,000 when cost and quantity are given.
+Answer:
+- Example: Cost per unit = $40, Quantity = 2000, Fixed costs = $10,000. Profit = (Price - Cost)*Quantity - FixedCosts.
+- Setup:
+  1. Compute profit formula in cell (e.g., B5): = (B1 - B2)*B3 - B4 where B1=Price, B2=Cost, B3=Quantity, B4=FixedCosts.
+  2. Data → What-If Analysis → Goal Seek. Set 'Set cell' to Profit cell, 'To value' 50000, 'By changing cell' the Price cell.
+  3. Run — Goal Seek returns required Price.
+- Manual check: Required Price = (Target + FixedCosts)/Quantity + Cost.
+
+Q7. Given a portfolio of 5 assets with expected return and risk, use Solver to maximize return while keeping total risk below 10%.
+Answer:
+- Example Q7_Raw: assets A-E with expected returns r_i and standard deviations risk_i; covariance matrix sheet Q7_Cov.
+- Setup:
+  1. Decision variables: allocation weights w1..w5 (sum to 1).
+  2. Objective: Maximize portfolio return = SUM(w_i * r_i).
+  3. Constraint: Portfolio risk (sqrt(w'Σw)) ≤ 0.10 OR (w'Σw) ≤ 0.01 (square of 10%). Implement risk as a cell computing w'Σw using matrix multiplication: =MMULT(MMULT(TRANSPOSE(w_range), CovRange), w_range)
+  4. Additional constraints: w_i ≥ 0 (no shorting) or allow negatives for shorting.
+  5. Solver: Set Objective to PortfolioReturn cell (Max), change variable cells = w_i, add constraints SUM(w_i)=1 and PortfolioVariance <= 0.01. Use GRG Nonlinear because variance root involves sqrt; you can square both sides to keep it quadratic (may still require Nonlinear solver).
+- Notes: For Markowitz optimization use quadratic programming solver or Excel's Solver with Nonlinear settings.
+
+Q8. Determine the break-even point where total revenue equals total cost using Goal Seek. Identify the “Set cell” for this process.
+Answer:
+- Example: Price per unit = P (known), Variable cost per unit = VC, Fixed cost = FC. Revenue = P*Q, Cost = FC + VC*Q.
+- Setup:
+  1. Create Profit cell = Revenue - Cost = P*Q - (FC + VC*Q).
+  2. Goal Seek: Set cell = Profit cell, To value = 0, By changing cell = Q (quantity).
+  3. Goal Seek returns break-even Q.
+- Analytical formula: Q = FC / (P - VC).
+============================================================================================================================
+
+TOPIC 3: CONDITIONAL FORMATTING
+==================================
+
+
+Q9. Highlight the top 10% of salespersons by revenue in green and the bottom 10% in red. Ensure the formatting updates automatically as data changes.
+Answer:
+- Example Q9_Raw: Salesperson in Col A, Revenue in Col B (B2:B101).
+- Steps:
+  1. Select revenue range B2:B101.
+  2. Home → Conditional Formatting → Top/Bottom Rules → Top 10% → set green fill.
+  3. Repeat: Bottom 10% → red fill.
+  4. These rules use relative references and update as values change.
+- For highlighting entire row, apply rule 'Use a formula to determine which cells to format' with formula =B2>=PERCENTILE($B$2:$B$101,0.9) and apply to range $A$2:$D$101. Similarly for bottom: =B2<=PERCENTILE($B$2:$B$101,0.1).
+
+Q10. Use a formula-based conditional format to highlight rows where delivery date is more than 10 days late.
+Answer:
+- Example: Due date in Col C, Delivery date in Col D, data in rows 2:200.
+- Formula: Select rows A2:F200, Conditional Formatting → New Rule → Use a formula: =AND($D2<>"",$D2-$C2>10) then set format (fill).
+- Explanation: Checks that a delivery date exists and is more than 10 days after due date. Adjust sign depending on column order.
+
+Q11. Create a heat map for student grades transitioning from red (low) to green (high).
+Answer:
+- Example grades in G2:G51.
+- Steps: Select G2:G51 → Conditional Formatting → Color Scales → choose a 2-color or 3-color scale (red-yellow-green). Excel applies dynamic gradient based on min/median/max of range.
+- For custom thresholds use 'Manage Rules' → Edit Rule → choose 'Format all cells based on their values' and set specific number thresholds.
+
+Q12. Highlight alternate rows only if column C equals “Active” using a formula.
+Answer:
+- Example: Data rows A2:F200, status in C2:C200.
+- Formula: Select A2:F200 → Conditional Formatting → New Rule → Use a formula: =AND($C2="Active",MOD(ROW(),2)=0) then choose format. This shades even rows where status Active. For odd rows use =MOD(ROW(),2)=1.
+
+Q13. Highlight all sales figures below 90% of their respective regional targets.
+Answer:
+- Example: Sales in Col D, Targets per region in a lookup table (Region in Col B, Target in table_tblTargets).
+- Approach:
+  1. Use VLOOKUP/INDEX to fetch target: =INDEX(tblTargets[Target], MATCH($B2, tblTargets[Region],0))
+  2. Conditional Formatting formula on sales column D: = $D2 < 0.9 * INDEX(tblTargets[Target], MATCH($B2, tblTargets[Region],0))
+  3. Apply to D2:D100 and set format.
+- If target is in same row (e.g., Col E), use =D2 < 0.9 * E2.
+
+====================================================================================================================================
+
+TOPIC 4: SLICER & PIVOT TABLE
+===================================
+Q14. Create a PivotTable showing sales by region, category, and quarter. Add slicers for “Region” and “Product Category”.
+Answer:
+- Example: Raw table Q14_Raw with columns Date, Region, Category, Product, Sales.
+- Steps:
+  1. Select source table → Insert → PivotTable → place on new sheet.
+  2. Rows: Region, Category. Columns: Quarter (use GROUP on Date by Quarter). Values: Sum of Sales.
+  3. With PivotTable selected: Insert → Slicer → check Region and Category. Position slicers near the pivot table.
+  4. Slicers filter interactively; you can style and connect to multiple pivots via Slicer → Report Connections.
+
+Q15. Connect a single slicer to control multiple PivotTables showing different metrics like Sales, Profit, and Returns.
+Answer:
+- Example: Create multiple PivotTables from same data source (or data model): Pivot1 shows Sales; Pivot2 shows Profit; Pivot3 shows Returns.
+- Steps:
+  1. Insert slicer from any PivotTable (Insert → Slicer).
+  2. Right-click slicer → Report Connections (or PivotTable Connections) → check all PivotTables to link.
+  3. Now the single slicer filters all connected PivotTables simultaneously.
+- Notes: For PivotTables from different caches, you must use the same data source/table or create PivotTables using 'Add this data to the Data Model' to share a cache.
+
+Q16. Build a PivotTable showing monthly sales per salesperson. Add a Timeline slicer to filter data by month and year.
+Answer:
+- Example data Q16_Raw with Date, Salesperson, SalesAmount.
+- Steps:
+  1. Insert PivotTable with Rows: Salesperson, Columns: Date (grouped by Months and Years), Values: Sum of SalesAmount.
+  2. With PivotTable selected: Insert → Timeline → choose the Date field. Place timeline on the sheet.
+  3. Use the timeline to filter by year/month. Timeline gives an intuitive UI for date ranges.
+- Notes: Timelines only work with Date fields in PivotTables and require Excel 2013+.
+
+Q17. Display only the top 5 customers in a PivotTable while allowing slicer-based filtering by Region.
+Answer:
+- Steps:
+  1. Create PivotTable with Rows: Customer, Values: Sum of Sales.
+  2. Right-click a customer in the Row Labels → Filter → Top 10... → change to Top 5 by Sum of Sales.
+  3. Insert slicer for Region. When slicer is changed, Pivot recalculates top 5 relative to the filtered data automatically.
+  4. If you need Top 5 per region displayed separately, consider using Pivot's 'Top 10' per region grouping or use a Pivot with Region in Rows above Customer and then set the filter on Customer to Top 5.
+==================================================================================================================================
+
+TOPIC 5: DELETING BLANK CELLS
+===================================
+Q18. Remove all blank rows from a dataset without deleting formulas in other columns.
+Answer:
+- Example: Q18_Raw A1:F200 with intermittent blank rows.
+- Method 1 (Go To Special):
+  1. Select the area (or entire sheet) where blanks are to be removed.
+  2. Home → Find & Select → Go To Special → Blanks. This selects blank cells.
+  3. To remove blank rows, use Home → Delete → Delete Sheet Rows (right-click a selected blank cell → Delete → Entire row). Be careful: only delete rows that are fully blank. If some columns contain formulas referencing the dataset, restrict selection to key columns that indicate row emptiness.
+- Method 2 (Sort):
+  1. Select the full table (including headers) and sort by a column that should never be blank (e.g., ID). Blank rows will group together — then delete them.
+- Method 3 (Power Query):
+  1. Data → From Table/Range → in Power Query use 'Remove Rows' → 'Remove Blank Rows' (or filter out nulls) and then Close & Load back to sheet. Power Query is safer as it preserves original data and avoids accidental formula deletion.
+
+Q19. Write a formula or Power Query step to delete only rows where all cells are blank.
+Answer:
+- Power Query approach (recommended):
+  1. Data → From Table/Range → In Query Editor, use 'Filter Rows' and apply condition to remove rows where all columns are null/blank. OR use 'Remove Rows' → 'Remove Blank Rows' which checks for entirely blank rows.
+  2. Close & Load.
+- Formula approach (helper column):
+  1. In helper column G2: =COUNTA(A2:F2)=0 which returns TRUE if all cells in the row are blank.
+  2. Filter the table on the helper column for TRUE and delete those rows, then remove helper column.
+- Notes: COUNTA ignores truly empty cells but counts formulas returning "" as non-empty; to treat "" as blank use: =SUMPRODUCT(--(TRIM(A2:F2)<>""))=0 (array) or use COUNTIF with "<>""".
+
+Q20. Use Go To Special → Blanks to find and delete empty cells that interfere with sorting, and shift remaining data upward automatically.
+Answer:
+- Steps:
+  1. Select the column where blanks appear (e.g., A:A).
+  2. Home → Find & Select → Go To Special → Blanks.
+  3. With blank cells selected, right-click any selected cell → Delete → Shift cells up. This collapses cells up and removes blanks inside the column without deleting entire rows.
+- Warning: This operation shifts only within the selected column; if your rows are relational (other columns have data), this will misalign rows. Use only when data in that column is independent or when you intend to remove blanks and shift values up intentionally.
+
+-------------------------------------
+BONUS SECTION: MIXED ADVANCED QUESTIONS (DETAILED)
+-------------------------------------
+MQ1. You receive a sales report where products are listed vertically by region, but your manager wants each region shown horizontally across columns. Without retyping, reorganize the data so that any update in the original table automatically updates the new one. (Hint: Use TRANSPOSE with dynamic references.)
+Answer:
+- Example (sheet MQ1_Raw):
+  | Product | Region | Sales |
+  | P1      | North  | 100   |
+  | P1      | South  | 80    |
+  | P2      | North  | 120   |
+- Task: pivot or reorient so Regions become columns and Products rows (a cross-tab).
+- Solution A (PivotTable):
+  1. Insert → PivotTable from the raw table. Rows = Product, Columns = Region, Values = Sum of Sales. This dynamically updates when the source is refreshed and can be linked to a table for auto-expansion.
+- Solution B (FORMULAS - Dynamic Cross-Tab):
+  1. Use UNIQUE to list products horizontally or vertically: =UNIQUE(MQ1_Raw[Product]). Use UNIQUE for Regions too.
+  2. Use SUMIFS: e.g., =SUMIFS(MQ1_Raw[Sales], MQ1_Raw[Product], $A2, MQ1_Raw[Region], B$1)
+  3. This yields a cross-tab that updates when source table expands.
+- Notes: Using structured tables (Insert → Table) keeps formulas intact as table grows.
+
+MQ2. A company tracks revenue and expenses per quarter. Use Goal Seek to determine the required sales in Q4 to achieve a total annual profit of $250,000, given fixed costs and tax rate.
+Answer:
+- Example (sheet MQ2_Raw):
+  Q1 sales 50000, Q2 60000, Q3 70000, Q4 unknown; variable cost rate 60%, fixed costs 20000, tax rate 30%.
+- Setup:
+  1. Compute AnnualProfit = SUM(quarters) - VariableCosts - FixedCosts - Taxes. VariableCosts = VariableRate * SUM(quarters). Taxes = TaxRate * (PreTaxProfit).
+  2. Let Q4 cell be B4. Put the profit formula in B10.
+  3. Data → What-If Analysis → Goal Seek. Set cell B10 to value 250000 by changing B4.
+  4. Goal Seek gives required Q4 sales.
+- Tip: If tax applied to profit after expenses, ensure formula order correct: PreTax = Revenue - VarCost - FixedCost; Taxes = TaxRate*PreTax; NetProfit = PreTax - Taxes.
+
+MQ3. Create a PivotTable dashboard summarizing monthly sales by product and region. Add a Slicer that allows users to filter by salesperson, and apply conditional formatting to highlight months where sales fall below 80% of target.
+Answer:
+- Steps (sheet MQ3_Raw has Date, Product, Region, Salesperson, Sales, Target):
+  1. Make source a Table (Ctrl+T).
+  2. Insert PivotTable: Rows = Product, Columns = Month (group Date by Months), Values = Sum of Sales. Add Region to Report Filter or Rows for drill-down.
+  3. Insert Slicer: PivotTable Analyze → Insert Slicer → choose Salesperson. Position slicer.
+  4. To apply conditional formatting on Pivot values: Select the Value area cells in Pivot → Home → Conditional Formatting → New Rule → Use a formula like =GETPIVOTDATA("Sum of Sales",$A$3, "Month", B$1) < 0.8 * TargetCellRef. Because GETPIVOTDATA can be finicky, an easier method is to copy Pivot values to a regular range (Paste Values) and use standard CF, or use 'Value Filters' if targets are accessible in the pivot source.
+- Notes: For dynamic CF directly on pivot, use 'Use a formula' with relative references anchored to the pivot's top-left cell.
+
+MQ4. You import a dataset from an external system and notice blank rows and columns scattered between data blocks. Explain two ways to remove all blank rows (using Go To Special and Power Query) without deleting formulas or headers.
+Answer:
+- Method 1: Go To Special:
+  1. Identify the data area or a key column which should never be blank (e.g., ID column). Select that column range.
+  2. Home → Find & Select → Go To Special → Blanks. This selects blank cells inside that column.
+  3. Right-click → Delete → Entire Row to remove rows where the key column is blank.
+  4. Keep headers separate by selecting only data rows (not header row) prior to operation.
+- Method 2: Power Query (safer):
+  1. Data → From Table/Range to load into Power Query.
+  2. In Query Editor, use Transform → 'Remove Rows' → 'Remove Blank Rows' or filter out rows where the key column is null/blank using the filter dropdown.
+  3. Close & Load back to sheet — this gives a clean table without modifying original file.
+- Notes: Power Query preserves transformations. Keep backup copy before row deletions.
+
+MQ5. Build a Solver model that allocates limited resources among 3 departments to maximize total output, subject to budget and staff constraints. Present the result in a formatted PivotTable where departments performing below target are highlighted in red using conditional formatting.
+Answer:
+- Example (sheet MQ5_Raw):
+  Departments D1, D2, D3. Output per unit resource: 10, 12, 9. Resource cost per unit: 100, 120, 90. Budget = 1000, Staff limit (total units) = 12.
+- Setup Solver:
+  1. Decision variables: allocation units x1,x2,x3.
+  2. Objective: MaxOutput = 10*x1 + 12*x2 + 9*x3 (set to Max).
+  3. Constraints:
+     - 100*x1 + 120*x2 + 90*x3 ≤ 1000 (budget)
+     - x1 + x2 + x3 ≤ 12 (staff)
+     - x_i ≥ 0 and integer if units indivisible.
+  4. Solver: Set Objective cell to MaxOutput, By Changing Variables x1:x3, add constraints and choose Solving Method: Simplex LP (if linear) or GRG Nonlinear. If integer constraints, select 'Make Unconstrained Variables Integer'.
+- Present in PivotTable:
+  1. Put results x1,x2,x3 in a small table and insert PivotTable referencing that table to summarize allocations and outputs.
+  2. Conditional Formatting: Apply a formula rule to pivot or result table to format cells where Output < Target (e.g., =B2 < TargetCell) set fill red.
+- Notes: Solver results can be saved as scenario; document assumptions.
+
+===========================================================================================================================
+
 
 22/8/2025
 ==========
@@ -2764,5 +3095,4 @@ Min: 10
     **Answer:** =CHOOSE(A1, "Option1", "Option2", "Option3")
 
 ===========================================================================
-
 

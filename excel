@@ -2328,6 +2328,502 @@ Step 5: On the right side (Queries & Connections pane):
    b) Existing Worksheet → loads data into a selected cell.
 
 ===========================================================================================================================
+VLOOKUP:
+==========
+
+
+What is VLOOKUP?
+VLOOKUP (Vertical Lookup) is an Excel function used to search for a value in the first column of a table and return a value from another column in the same row.
+
+VLOOKUP Formula:
+=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])
+
+Arguments:
+lookup_value – The value you want to search for.
+table_array – The table where you will search.
+col_index_num – Column number to return data from.
+range_lookup – TRUE = approximate match; FALSE = exact match.
+--------------------------------------------------------------------------------------------------------------------
+Example 1: Basic VLOOKUP
+Data Table:
+Name    Marks
+Rahul   85
+Priya   92
+Amit    78
+
+Find Priya’s marks:
+=VLOOKUP("Priya", A2:B4, 2, FALSE)
+Result: 92
+----------------------------------------------------------------------------------------------------------------------
+Example 2: Using Cell Reference
+Data:
+ID   Name   Salary
+101  John   35000
+102  Meera  42000
+103  Rohan  39000
+
+If E1 = 102:
+=VLOOKUP(E1, A2:C4, 3, FALSE)
+Result: 42000
+------------------------------------------------------------------------------------------------------------------------
+Example 3: Approximate Match
+Data:
+Score  Grade
+0      F
+50     D
+60     C
+70     B
+80     A
+
+Find grade for score 75:
+=VLOOKUP(75, A2:B6, 2, TRUE)
+Result: B
+
+
+===================================================================================================================================
+
+HLOOKUP:
+========
+
+What is HLOOKUP?
+HLOOKUP (Horizontal Lookup) is an Excel function used to search for a value in the top row of a table and return a value from another row below it.
+
+HLOOKUP Formula:
+=HLOOKUP(lookup_value, table_array, row_index_num, [range_lookup])
+
+Arguments:
+lookup_value – The value to search for in the top row.
+table_array – The table where the search happens.
+row_index_num – Row number to return the value from.
+range_lookup – TRUE = approximate match; FALSE = exact match.
+------------------------------------------------------------------------------------------------------------------------
+Example 1: Basic HLOOKUP
+Data:
+Months: Jan   Feb   Mar
+Sales:  1200  1500  1700
+
+Find sales for Feb:
+=HLOOKUP("Feb", B1:D2, 2, FALSE)
+Result: 1500
+------------------------------------------------------------------------------------------------------------------------
+Example 2: Using Cell Reference
+Data:
+Subjects: Math  English  Science  Hindi
+Marks:     88      92       85     90
+
+If A1 = "Science":
+=HLOOKUP(A1, B1:E2, 2, FALSE)
+Result: 85
+------------------------------------------------------------------------------------------------------------------------
+Example 3: Approximate Match
+Data:
+Score Range: 0   50   60   80
+Grade:       F    D    C    A
+
+Find grade for score 65:
+=HLOOKUP(65, B1:E2, 2, TRUE)
+Result: C
+
+
+=====================================================================================================================================
+XLOOKUP:
+=========
+
+What is XLOOKUP?
+XLOOKUP is a modern Excel function used to search for a value in a row or column and return a matching value from another row or column. It is more flexible and powerful than VLOOKUP and HLOOKUP.
+
+XLOOKUP Formula:
+=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])
+
+Arguments:
+lookup_value – The value you want to find.
+lookup_array – The row or column where the search happens.
+return_array – The row or column to return the value from.
+if_not_found – Optional message if value not found.
+match_mode – 0 = exact match (default), -1 = next smaller, 1 = next larger.
+search_mode – 1 = search from first to last, -1 = search from last to first.
+------------------------------------------------------------------------------------------------------------------------
+Example 1: Simple XLOOKUP
+Data:
+Name   Marks
+Rahul  85
+Priya  92
+Amit   78
+
+Find Priya’s marks:
+=XLOOKUP("Priya", A2:A4, B2:B4)
+Result: 92
+------------------------------------------------------------------------------------------------------------------------
+Example 2: Using Cell Reference
+If E1 = Amit:
+=XLOOKUP(E1, A2:A4, B2:B4, "Not found")
+Result: 78
+------------------------------------------------------------------------------------------------------------------------
+Example 3: XLOOKUP Left Lookup
+Data:
+ID   Salary  Name
+101  35000   John
+102  42000   Meera
+103  39000   Rohan
+
+Find salary using Name:
+=XLOOKUP("Meera", C2:C4, B2:B4)
+Result: 42000
+------------------------------------------------------------------------------------------------------------------------
+Example 4: Approximate Match
+Data:
+Score  Grade
+0      F
+50     D
+60     C
+80     A
+
+Find grade for score 70:
+=XLOOKUP(70, A2:A5, B2:B5, , -1)
+Result: C
+
+================================================================================================================================
+Lookup questions
+=====================
+--- NORMAL LEVEL (1–10) ---
+
+Q1. Find Product Price
+Input Table:
+ProductID | Price
+P101      | 120
+P102      | 200
+P103      | 150
+P104      | 90
+Lookup Value: P103
+Expected Output: 150
+Formula: __________________
+
+Q2. Employee Salary
+Input Table:
+Name     | Salary
+Ravi     | 45000
+Meena    | 52000
+Kishore  | 39000
+Lookup Value: Meena
+Expected Output: 52000
+Formula: __________________
+
+Q3. Roll No Marks
+Input Table:
+Roll No | Marks
+104     | 87
+105     | 92
+106     | 78
+Lookup Value: 106
+Expected Output: 78
+Formula: __________________
+
+Q4. Department by Employee Code
+Input Table:
+EmpCode | Dept
+E001    | HR
+E002    | Sales
+E003    | IT
+E004    | Finance
+Lookup Value: E004
+Expected Output: Finance
+Formula: __________________
+
+Q5. Capital of a Country
+Input Table:
+Country | Capital
+India   | New Delhi
+Japan   | Tokyo
+France  | Paris
+Lookup Value: Japan
+Expected Output: Tokyo
+Formula: __________________
+
+Q6. Stock Number
+Input Table:
+Item    | StockNo
+ItemA   | 1001
+ItemB   | 1002
+ItemC   | 1003
+Lookup Value: ItemC
+Expected Output: 1003
+Formula: __________________
+
+Q7. Grade Approx Match
+Input Table:
+Marks | Grade
+0     | F
+50    | D
+60    | C
+70    | B
+80    | A
+Lookup Value: 72
+Expected Output: B
+Formula: __________________
+
+Q8. Return 4th Column Value
+Input Table:
+Key | C1 | C2 | C3
+K1  | 10 | 20 | X
+K2  | 15 | 25 | Y
+K3  | 18 | 30 | Z
+Lookup Value: K2
+Expected Output: Y
+Formula: __________________
+
+Q9. Lookup Missing Value with IFERROR
+Input Table:
+Code | Value
+A    | 1
+B    | 2
+Lookup Value: C
+Expected Output: Not Available
+Formula: __________________
+
+Q10. Lookup from Another Sheet
+Sheet2 Table:
+ID  | Value
+S1  | 500
+S2  | 600
+S3  | 700
+Lookup Value: S3
+Expected Output: 700
+Formula: __________________
+
+--- HARD LEVEL (11–20) ---
+
+Q11. March Sales (HLOOKUP)
+Input Table:
+Jan | Feb | Mar
+1200 | 1500 | 1700
+Lookup Value: Mar
+Expected Output: 1700
+Formula: __________________
+
+Q12. Science Marks (HLOOKUP)
+Input Table:
+Math | English | Science | Hindi
+88   | 92      | 85      | 90
+Lookup Value: Science
+Expected Output: 85
+Formula: __________________
+
+Q13. Q4 Target (HLOOKUP)
+Input Table:
+Q1   | Q2   | Q3   | Q4
+10000 | 12000 | 9000 | 15000
+Lookup Value: Q4
+Expected Output: 15000
+Formula: __________________
+
+Q14. Profit for 2021 (HLOOKUP)
+Input Table:
+2020 | 2021 | 2022
+50000 | 60000 | 55000
+Lookup Value: 2021
+Expected Output: 60000
+Formula: __________________
+
+Q15. Return 3rd Row Value
+Input Table:
+A | B | C
+1 | 2 | 3
+X | Y | Z
+Lookup Value: B
+Expected Output: Y
+Formula: __________________
+
+Q16. XL Size Price
+Input Table:
+S  | M  | L  | XL
+500| 600| 700| 800
+Lookup Value: XL
+Expected Output: 800
+Formula: __________________
+
+Q17. Grade Approx (HLOOKUP)
+Input Table:
+0 | 50 | 60 | 80
+F | D  | C  | A
+Lookup Value: 67
+Expected Output: C
+Formula: __________________
+
+Q18. Lookup C1 cell (HLOOKUP)
+Input Table:
+Math | Eng | Sci | Hist
+78   | 84  | 90  | 76
+Lookup Value: C1
+Expected Output: 78
+Formula: __________________
+
+Q19. HLOOKUP with IFERROR
+Input Table:
+X | Y
+10| 20
+Lookup Value: Z
+Expected Output: Not Found
+Formula: __________________
+
+Q20. Commission Rate Approx
+Input Table:
+0     | 1000 | 5000 | 10000 | 20000
+1%    | 2%   | 3%   | 4%    | 5%
+Lookup Value: 7500
+Expected Output: 3%
+Formula: __________________
+
+--- ADVANCED LEVEL (21–30) ---
+
+Q21. Total Sales XLOOKUP+SUM
+Input Table:
+Code | Jan | Feb | Mar
+PR1  | 10  | 20  | 30
+PR2  | 5   | 15  | 25
+PR3  | 8   | 12  | 16
+Lookup Value: PR2
+Expected Output: 45
+Formula: __________________
+
+Q22. Nested XLOOKUP
+Input Table 1: Names
+Alice | Bob | Cara
+Input Table 2: Dept
+HR | Sales | IT
+Lookup Value: Bob
+Expected Output: Sales
+Formula: __________________
+
+Q23. XLOOKUP in Descending List
+Input Table:
+Value
+100
+90
+80
+70
+Lookup Value: 85
+Expected Output: 80
+Formula: __________________
+
+Q24. Second Highest Repeated Value
+Input Table:
+ID | Score
+A  | 88
+B  | 95
+C  | 95
+D  | 90
+Lookup Value: Highest Score
+Expected Output: 95
+Formula: __________________
+
+Q25. VLOOKUP with CHOOSE (Left Lookup)
+Input Table:
+Name | ID
+John | 101
+Meera| 102
+Rohan| 103
+Lookup Value: Meera
+Expected Output: 102
+Formula: __________________
+
+Q26. VLOOKUP + MATCH Dynamic Column
+Input Table:
+Month | Sales | Profit
+Jan   | 500   | 50
+Feb   | 600   | 60
+Mar   | 700   | 70
+Lookup Value: Feb Profit
+Expected Output: 60
+Formula: __________________
+
+Q27. INDEX+MATCH+MATCH Two-way Lookup
+Input Table:
+       Jan | Feb | Mar
+Alice  10  | 12  | 15
+Bob    5   | 8   | 9
+Lookup Value: Bob Feb
+Expected Output: 8
+Formula: __________________
+
+Q28. MATCH+XLOOKUP
+Input Table:
+ID | Score
+101 | 78
+102 | 85
+103 | 90
+Lookup Value: 102
+Expected Output: 85
+Formula: __________________
+
+Q29. XLOOKUP Filter Vertical Spill
+Input Table:
+ID | Name
+101 | John
+102 | John
+103 | Meera
+Lookup Value: John
+Expected Output: 101, 102
+Formula: __________________
+
+Q30. XLOOKUP+MAX Employee Highest Bonus
+Input Table:
+Employee | Bonus
+Ravi     | 1000
+Sita     | 1500
+Amit     | 1200
+Lookup Value: Highest Bonus
+Expected Output: Sita
+Formula: __________________
+
+
+=====================================================================================================
+
+==============================
+30 Lookup Questions – Answer Key
+==============================
+
+--- NORMAL LEVEL (1–10) ---
+
+Q1. =VLOOKUP("P103", A2:B5, 2, FALSE) → 150
+Q2. =VLOOKUP("Meena", A2:B4, 2, FALSE) → 52000
+Q3. =VLOOKUP(106, A2:B5, 2, FALSE) → 78
+Q4. =VLOOKUP("E004", A2:B5, 2, FALSE) → Finance
+Q5. =VLOOKUP("Japan", A2:B4, 2, FALSE) → Tokyo
+Q6. =VLOOKUP("ItemC", A2:B4, 2, FALSE) → 1003
+Q7. =VLOOKUP(72, A2:B6, 2, TRUE) → B
+Q8. =VLOOKUP("K2", A2:D4, 4, FALSE) → Y
+Q9. =IFERROR(VLOOKUP("C", A2:B3, 2, FALSE), "Not Available") → Not Available
+Q10. =VLOOKUP("S3", Sheet2!A2:B4, 2, FALSE) → 700
+
+--- HARD LEVEL (11–20) ---
+
+Q11. =HLOOKUP("Mar", B1:D2, 2, FALSE) → 1700
+Q12. =HLOOKUP("Science", B1:E2, 2, FALSE) → 85
+Q13. =HLOOKUP("Q4", B1:E2, 2, FALSE) → 15000
+Q14. =HLOOKUP(2021, B1:D2, 2, FALSE) → 60000
+Q15. =HLOOKUP("B", B1:D3, 3, FALSE) → Y
+Q16. =HLOOKUP("XL", B1:E2, 2, FALSE) → 800
+Q17. =HLOOKUP(67, B1:E2, 2, TRUE) → C
+Q18. =HLOOKUP(C1, B1:E2, 2, FALSE) → 78
+Q19. =IFERROR(HLOOKUP("Z", B1:C2, 2, FALSE), "Not Found") → Not Found
+Q20. =HLOOKUP(7500, B1:F2, 2, TRUE) → 0.03 (3%)
+
+--- ADVANCED LEVEL (21–30) ---
+
+Q21. =SUM(XLOOKUP("PR2", A2:A4, B2:D4)) → 45
+Q22. =XLOOKUP("Bob", A2:A4, B2:B4) → Sales
+Q23. =XLOOKUP(85, A2:A5, A2:A5, , -1) → 80
+Q24. =LARGE(A2:A5, 2) → 95
+Q25. =VLOOKUP("Meera", CHOOSE({2,1}, B2:B4, A2:A4), 2, FALSE) → 102
+Q26. =VLOOKUP("Feb", A2:C4, 3, FALSE) → 60
+Q27. =INDEX(B2:D3, MATCH("Bob", A2:A3,0), MATCH("Feb", B1:D1,0)) → 8
+Q28. =XLOOKUP(102, A2:A4, B2:B4) → 85
+Q29. =XLOOKUP("John", B2:B4, A2:A4) → 101, 102 (spill)
+Q30. =XLOOKUP(MAX(B2:B4), B2:B4, A2:A4) → Sita
+
+
+==============================================================================================
+
 
 1. Important Formulas in Excel:
 
